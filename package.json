@@ -1,6 +1,6 @@
 {
   "name": "prerender-and-statics-node",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Fork of prerender-node adding a simple environment configuration to enable that always serves cached pages if needed ",
   "author": "Lasote (Luis Martínez de Bartolomé) lasote@gmail.com",
   "license": "MIT",

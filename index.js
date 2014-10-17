@@ -124,7 +124,7 @@ prerender.shouldShowPrerenderedPage = function(req) {
   //if global cache is enabled, always serve cached static pages (overload purposes or something like this)
   if(process.env.CACHED_PAGES==true){
     console.log("Cache enabled, so should prerender: " + req.url);
-    return true;
+    isRequestingPrerenderedPage = true;
   }
 
   //if it contains _escaped_fragment_, show prerendered page

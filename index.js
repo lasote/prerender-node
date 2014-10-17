@@ -121,6 +121,11 @@ prerender.shouldShowPrerenderedPage = function(req) {
         return false;
   }
 
+  //our prerender service append this variable to recognize a request to cache
+  if(url.parse(req.url, true).query.hasOwnProperty('_iam_prerender_service_')){
+	return false;
+  }
+
   //if global cache is enabled, always serve cached static pages (overload purposes or something like this)
   if(process.env.CACHED_PAGES==true){
     console.log("Cache enabled, so should prerender: " + req.url);

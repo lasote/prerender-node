@@ -3,8 +3,12 @@ var request = require('request')
   , zlib = require('zlib');
 
 var prerender = module.exports = function(req, res, next) {
-  if(!prerender.shouldShowPrerenderedPage(req)) return next();
-
+  if(!prerender.shouldShowPrerenderedPage(req)){
+     console.log("Not should prerender req: " + req.url); 
+     return next();
+  }
+ 
+  console.log("Should prerender req: " + req.url);
   prerender.beforeRenderFn(req, function(err, cachedRender) {
 
     if (!err && cachedRender && typeof cachedRender == 'string') {
@@ -15,6 +19,7 @@ var prerender = module.exports = function(req, res, next) {
     prerender.getPrerenderedPageResponse(req, function(prerenderedResponse){
 
       if(prerenderedResponse) {
+        console.log("Got prerendered page!");
         prerender.afterRenderFn(req, prerenderedResponse);
         res.set(prerenderedResponse.headers);
         res.status(prerenderedResponse.statusCode)
@@ -107,12 +112,23 @@ prerender.shouldShowPrerenderedPage = function(req) {
     , bufferAgent = req.headers['x-bufferbot']
     , isRequestingPrerenderedPage = false;
 
-  if(!userAgent) return false;
-  if(req.method != 'GET' && req.method != 'HEAD') return false;
+  if(!userAgent){
+	console.log("Not user agent, so no should prerender");
+        return false;
+  }
+  if(req.method != 'GET' && req.method != 'HEAD'){
+        console.log("Not get method or head, so not should prerender");
+        return false;
+  }
+
+  //if global cache is enabled, always serve cached static pages (overload purposes or something like this)
+  if(process.env.CACHED_PAGES==true){
+    console.log("Cache enabled, so should prerender: " + req.url);
+    return true;
+  }
 
   //if it contains _escaped_fragment_, show prerendered page
   if(url.parse(req.url, true).query.hasOwnProperty('_escaped_fragment_')) isRequestingPrerenderedPage = true;
-
   //if it is a bot...show prerendered page
   if(prerender.crawlerUserAgents.some(function(crawlerUserAgent){ return userAgent.toLowerCase().indexOf(crawlerUserAgent.toLowerCase()) !== -1;})) isRequestingPrerenderedPage = true;
 

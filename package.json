@@ -1,19 +1,20 @@
 {
-  "name": "prerender-node",
-  "version": "1.1.1",
-  "description": "express middleware for serving prerendered javascript-rendered pages for SEO",
-  "author": "Todd Hooper",
+  "name": "prerender-and-statics-node",
+  "version": "0.0.2",
+  "description": "Fork of prerender-node adding a simple environment configuration to enable that always serves cached pages if needed ",
+  "author": "Lasote (Luis Martínez de Bartolomé) lasote@gmail.com",
   "license": "MIT",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/prerender/prerender-node"
+    "url": "git://github.com/lasote/prerender-node"
   },
   "keywords": [
     "angular",
     "backbone",
     "emberjs",
-    "seo"
+    "seo",
+    "prerender"
   ],
   "devDependencies": {
     "mocha": "~1.13.0",
